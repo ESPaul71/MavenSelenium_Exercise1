@@ -20,43 +20,63 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.aventstack.extentreports.Status;
 
+//import com.aventstack.extentreports.Status;
+
+/**
+ * 
+ * @author paul
+ *
+ */
 public class ClsWebElements extends ClsBrowser //Changed inheritance
 {
 	private int DefaultTimeout = 10;
 	public static Wait<WebDriver> objFluentWait;
     public static WebDriverWait objExplicitWait;
     public static String strAction = "";
+    private int cont =1;
 	
-
+/**
+ * 
+ * @param by
+ * @return
+ */
     public WebElement GetWebElement(By by) //I changed name for respect CamelCase
     {
         try
         {
-        	ClsReport.fnLog(Status.INFO, "Step - Get Web Element: " + by.toString(), false); //Changed INFORMATION TO INFO
-            WebElement pobjElement = ClsBrowser.objDriver.findElement(by);
-            ClsReport.fnLog(Status.PASS, "Step - The Web Element: " + by.toString() + " was found as expected.", false);
+        	//ClsReport.fnLog(Status.INFO, "Step - Get Web Element: " + by.toString(), false); //Changed INFORMATION TO INFO
+            WebElement pobjElement = objDriver.findElement(by);
+            //ClsReport.fnLog(Status.PASS, "Step - The Web Element: " + by.toString() + " was found as expected.", false);
             return pobjElement;
         }
         catch (NoSuchElementException pobjException)
         {
-        	ClsReport.fnLog(Status.FAIL, "Step - The Web Element: " + by.toString() + " was not found as expected. Exception: " + pobjException.getStackTrace(), true);
+        	//ClsReport.fnLog(Status.FAIL, "Step - The Web Element: " + by.toString() + " was not found as expected. Exception: " + pobjException.getStackTrace(), true);
         	return null;
         }
     }
     
-    
+    /**
+     * 
+     * @param pstrLocator
+     * @return
+     */
     public WebElement GetWebElement(String pstrLocator) //I changed name for respect CamelCase
     {
     		return GetWebElement(By.xpath(pstrLocator));
     	
     }
 	
-	
+	/**
+	 * 
+	 * @param by
+	 * @return
+	 */
     public List<WebElement> getWebList(By by)
     {
         try
         {
-            List<WebElement> pobjElement = ClsBrowser.objDriver.findElements(by);
+            List<WebElement> pobjElement = objDriver.findElements(by);
             return pobjElement;
         }
         catch (Exception pobjException)
@@ -66,26 +86,38 @@ public class ClsWebElements extends ClsBrowser //Changed inheritance
         }
     }
     
-    
+    /**
+     * 
+     * @param pstrLocator
+     * @return
+     */
     public List<WebElement> getWebList(String pstrLocator)
     {
         return getWebList(By.xpath(pstrLocator));
     }
     
-    
+    /**
+     * 
+     * @param pstrLocator
+     * @return
+     */
     public Object GetFluentWait(final String pstrLocator) 
     {
     	return GetFluentWait(By.xpath(pstrLocator));
     }
     
-    
+    /**
+     * 
+     * @param by
+     * @return
+     */
     public Object GetFluentWait(final By by) 
     {
     	try 
     	{
     		// Waiting 30 seconds for an element to be present on the page, checking
     	 	   // for its presence once every 5 seconds.
-    	    	objFluentWait = new FluentWait<WebDriver>(ClsBrowser.objDriver)
+    	    	objFluentWait = new FluentWait<WebDriver>(objDriver)
     	 	       .withTimeout(Duration.ofSeconds(30L))
     	 	       .pollingEvery(Duration.ofSeconds(3L))
     	 	       .ignoring(NoSuchElementException.class);
@@ -109,13 +141,17 @@ public class ClsWebElements extends ClsBrowser //Changed inheritance
     
     
     
-    
+    /**
+     * 
+     * @param by
+     * @return
+     */
     public boolean Click(final By by) 
 	{
     	try 
     	{
     		WebElement objElement = (WebElement) GetFluentWait(by);
-    		objExplicitWait = new WebDriverWait(ClsBrowser.objDriver, DefaultTimeout);
+    		objExplicitWait = new WebDriverWait(objDriver, DefaultTimeout);
     		objExplicitWait.until(ExpectedConditions.elementToBeClickable(by));
     		objElement.click();
     		return true;
@@ -126,20 +162,29 @@ public class ClsWebElements extends ClsBrowser //Changed inheritance
     	}
 	}
     
-    
+    /**
+     * 
+     * @param pstrLocator
+     * @return
+     */
     public boolean Click(final String pstrLocator) 
 	{
 		return Click(By.xpath(pstrLocator));
 	}
     
     
-    
+    /**
+     * 
+     * @param by
+     * @param pValue
+     * @return
+     */
     public boolean SendKeys(final By by, String pValue) 
 	{
     	try 
     	{
     		WebElement objElement = (WebElement) GetFluentWait(by);
-    		objExplicitWait = new WebDriverWait(ClsBrowser.objDriver, DefaultTimeout);
+    		objExplicitWait = new WebDriverWait(objDriver, DefaultTimeout);
     		objExplicitWait.until(ExpectedConditions.visibilityOfElementLocated(by));
     		objElement.clear();
     		objElement.sendKeys(pValue);
@@ -152,20 +197,31 @@ public class ClsWebElements extends ClsBrowser //Changed inheritance
 		
     	//return null; This part is better delete because is out of try cash and don't use
 	}
-    
+    /**
+     * 
+     * @param pstrLocator
+     * @param pValue
+     * @return
+     */
     public boolean SendKeys(final String pstrLocator, String pValue) 
     {
     	return SendKeys(By.xpath(pstrLocator), pValue);
     }
     
     
-        
+    /**
+     *     
+     * @param by
+     * @param pMethod
+     * @param pValue
+     * @return
+     */
     public boolean SelectItem(final By by, String pMethod, String pValue) 
     {
     	try 
     	{
     		WebElement objElement = (WebElement) GetFluentWait(by);
-        	objExplicitWait = new WebDriverWait(ClsBrowser.objDriver, 10);
+        	objExplicitWait = new WebDriverWait(objDriver, 10);
     		objExplicitWait.until(ExpectedConditions.visibilityOfElementLocated(by));
         	Select selectObject = new Select(objElement);
         	
@@ -187,30 +243,46 @@ public class ClsWebElements extends ClsBrowser //Changed inheritance
     		return false;
     	}    	
     }
-    
+    /**
+     * 
+     * @param pstrLocator
+     * @param pMethod
+     * @param pValue
+     * @return
+     */
     public boolean SelectItem(final String pstrLocator, String pMethod, String pValue) 
     {
     	return SelectItem(By.xpath(pstrLocator), pMethod, pValue);
     }
     
     
-    
+    /**
+     * 
+     * @param pstrLocator
+     */
     public void WaitForElement(final String pstrLocator) 
     {
-    	objExplicitWait = new WebDriverWait(ClsBrowser.objDriver, 10);
+    	objExplicitWait = new WebDriverWait(objDriver, 10);
     	objExplicitWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(pstrLocator)));
     }
     
     
     
-    
+    /**
+     * 
+     * @param by
+     */
     public void WaitForElementClickable(final By by) 
     {
-    	objExplicitWait = new WebDriverWait(ClsBrowser.objDriver, 10);
+    	objExplicitWait = new WebDriverWait(objDriver, 10);
     	objExplicitWait.until(ExpectedConditions.presenceOfElementLocated(by));
     	objExplicitWait.until(ExpectedConditions.elementToBeClickable(by));
     }
     
+    /**
+     * 
+     * @param pstrLocator
+     */
     public void WaitForElementClickable(final String pstrLocator) 
     {
     	WaitForElementClickable(By.xpath(pstrLocator));
@@ -224,14 +296,17 @@ public class ClsWebElements extends ClsBrowser //Changed inheritance
                         return ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete");
                     }
                 };
-        WebDriverWait wait = new WebDriverWait(ClsBrowser.objDriver, 30);
+        WebDriverWait wait = new WebDriverWait(objDriver, 30);
         wait.until(pageLoadCondition);
     }
     
-    
+    /**
+     * 
+     * @param pstrLocator
+     */
     public void LinkText(final String pstrLocator) 
     {
-    	WebElement objElement = ClsBrowser.objDriver.findElement(By.linkText(pstrLocator));
+    	WebElement objElement = objDriver.findElement(By.linkText(pstrLocator));
     	objElement.click();
 		
     }
@@ -239,20 +314,59 @@ public class ClsWebElements extends ClsBrowser //Changed inheritance
     
     public void AcceptAlert() 
     {
-    	WebDriverWait wait = new WebDriverWait(ClsBrowser.objDriver, 3000);
+    	WebDriverWait wait = new WebDriverWait(objDriver, 3000);
     	wait.until(ExpectedConditions.alertIsPresent());
-    	Alert alert = ClsBrowser.objDriver.switchTo().alert();  
+    	Alert alert = objDriver.switchTo().alert();  
     	alert.accept();
     }
     
     
     public String GetAlertText() 
     {
-    	WebDriverWait wait = new WebDriverWait(ClsBrowser.objDriver, 3000);
+    	WebDriverWait wait = new WebDriverWait(objDriver, 3000);
     	wait.until(ExpectedConditions.alertIsPresent());
-    	Alert alert = ClsBrowser.objDriver.switchTo().alert();
-    	String alertMessage = alert.getText(); //I changed this part because before we repeated the same sentences "ClsBrowser.objDriver.switchTo().alert();"
+    	Alert alert = objDriver.switchTo().alert();
+    	String alertMessage = alert.getText(); //I changed this part because before we repeated the same sentences "objDriver.switchTo().alert();"
     	return alertMessage;
+    }
+    
+    /**
+     * 
+     * @param locator
+     */
+    //This method search the element that receive like xpath
+    public void Scroll(By locator) {
+    	JavascriptExecutor je = (JavascriptExecutor) objDriver;
+    	 
+    	//Identify the WebElement which will appear after scrolling down
+    	 
+    	WebElement element = objDriver.findElement(locator);
+    	 
+
+    	// now execute query which actually will scroll until that element is not appeared on page.
+    	 
+    	je.executeScript("arguments[0].scrollIntoView(true);",element);
+
+    	 
+    	// Extract the text and verify
+    	 
+    	System.out.println(element.getText());
+    }
+    
+    /**
+     * 
+     * @param by
+     * @param pValue
+     */
+    //This method i use for show each product inside of list, and send Product's number and Product's name to Amazon.html and ExcelReport
+    public void ForEachList(final By by, String pValue) {
+		List<WebElement> myElements = getWebList(by);
+		for(WebElement e : myElements) {
+			  System.out.println(e.getAttribute(pValue));
+			  ClsReport.fnLog(Status.INFO, "Product " + cont + " : " + e.getAttribute(pValue), false); //Send product's name to report
+			  ExcelReport.AddNewItem(cont, e);//Send product's name to Excel file
+			  cont++;
+			}
     }
     
     
