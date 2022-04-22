@@ -4,6 +4,9 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.aventstack.extentreports.Status;
+
+import selenium.ClsReport;
 import selenium.ClsWebElements;
 
 public class TvPage extends ClsWebElements{
@@ -16,12 +19,8 @@ public class TvPage extends ClsWebElements{
 	
 	
 	public void AddToCart(By Item) {
-		try {
 				WaitForElementClickable(Item);
 				Click(Item);
-		}catch(Exception e) {
-			
-		}
 	}
 	
 	public void VerifyTVSection() 
@@ -31,12 +30,19 @@ public class TvPage extends ClsWebElements{
 		WebElement objTitle = GetWebElement(Title);
 		String currentTitle = objTitle.getAttribute("innerText");
 		Assert.assertEquals("TV", currentTitle);
+
 	}
 	
 	public void VerifyItemExist(String Item, String name) {
-		WaitForElement(Item);
-		WebElement objItem = GetWebElement(Item);
-		String currentItem = objItem.getAttribute("innerText");
-		Assert.assertEquals( name, currentItem);
+		try {
+			WaitForElement(Item);
+			WebElement objItem = GetWebElement(Item);
+			String currentItem = objItem.getAttribute("innerText");
+			Assert.assertEquals( name, currentItem);
+		}catch(Exception e) {
+			ClsReport.fnLog(Status.FAIL, "Error: " + e.getMessage(), false);
+			System.out.println(e);
+		}
+
 	}
 }

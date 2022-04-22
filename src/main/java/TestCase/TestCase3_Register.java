@@ -41,8 +41,11 @@ public class TestCase3_Register extends ClsWebElements{
 			} 
 			
 			@Test 
-			public void FirstTC() throws Exception
+			public void ThirdTC() throws Exception
 			{
+				try {
+					
+				
 					ClsReport.objTest = ClsReport.objExtent.createTest("Third Test");
 					ClsReport.fnLog(Status.PASS, "Third test Starting.", false);
 					NavigateToUrl(URL); //go to Magento
@@ -72,6 +75,9 @@ public class TestCase3_Register extends ClsWebElements{
 					objCreate.VerifyActiveSession();
 					ClsReport.fnLog(Status.PASS, "Step - Check if the account was register.", false);
 					ClsReport.fnLog(Status.PASS, "Step - Third test completed.", true);
+				}catch (Exception e) {
+					ClsReport.fnLog(Status.FAIL, "Error: " + e.getMessage(), false);
+				}
 					
 			}
 			

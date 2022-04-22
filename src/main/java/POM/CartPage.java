@@ -17,6 +17,7 @@ public class CartPage extends ClsWebElements {
 		WebElement objItem = GetWebElement(Item);
 		String currentItem = objItem.getAttribute("innerText");
 		Assert.assertEquals(name, currentItem);
+
 	}
 	
 	public void VerifyCartSection() 

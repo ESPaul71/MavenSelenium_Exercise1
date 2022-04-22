@@ -46,6 +46,7 @@ public class TestCase1_AddToCart extends ClsWebElements{
 		@Test 
 		public void FirstTC() throws Exception
 		{
+			try {
 				ClsReport.objTest = ClsReport.objExtent.createTest("First Test");
 				ClsReport.fnLog(Status.PASS, "First test Starting.", false);
 				NavigateToUrl(URL); //go to Magento
@@ -65,6 +66,9 @@ public class TestCase1_AddToCart extends ClsWebElements{
 				objCart.VerifyAddItem("LG LCD");
 				ClsReport.fnLog(Status.PASS, "Step - Verify that the item was added.", true);
 				ClsReport.fnLog(Status.PASS, "Step - First test completed.", true);
+			}catch (Exception e) {
+				ClsReport.fnLog(Status.FAIL, "Error: " + e.getMessage(), false);
+			}
 
 		}
 		

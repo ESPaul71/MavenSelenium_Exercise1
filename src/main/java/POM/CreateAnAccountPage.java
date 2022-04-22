@@ -12,7 +12,7 @@ public class CreateAnAccountPage extends ClsWebElements{
 	String FirstName = "Ervin";
 	String MiddleName = "Paul";
 	String LastName = "Escobar Santos";
-	String Email = "paul77@hotmail.mx"; //Account email
+	String Email = "paul27@hotmail.mx"; //Account email
 	String Password = "HolaMundo1";//Account password
 	String Title = "//h1";
 	String Header = "//p[@class='welcome-msg']";
@@ -87,5 +87,6 @@ public class CreateAnAccountPage extends ClsWebElements{
 		WebElement objTitle = GetWebElement(Header);
 		String currentTitle = objTitle.getAttribute("innerText");
 		Assert.assertEquals("WELCOME, ERVIN PAUL ESCOBAR SANTOS!", currentTitle);
+
 	}
 }
